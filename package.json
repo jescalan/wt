@@ -1,5 +1,5 @@
 {
-  "name": "wt-cli",
+  "name": "@jescalan/wt",
   "version": "0.1.0",
   "description": "A CLI tool for managing git worktrees with plugin support",
   "author": "Jeff Escalante",

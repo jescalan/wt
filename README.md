@@ -6,10 +6,10 @@ A CLI tool for managing git worktrees with a plugin system for extensibility.
 
 ```bash
 # Install globally
-npm install -g wt-cli
+npm install -g @jescalan/wt
 
 # Or run directly with npx
-npx wt-cli <command>
+npx @jescalan/wt <command>
 ```
 
 ## Commands
@@ -162,7 +162,7 @@ wt init fish | source
 Create a `wt.config.ts` file in your project root (or any parent directory):
 
 ```typescript
-import type { WtConfig } from "wt-cli/types";
+import type { WtConfig } from "@jescalan/wt/types";
 
 export default {
   // Copy gitignored files when creating worktrees (default: true)
@@ -268,7 +268,7 @@ interface HookContext {
 ### Writing a Plugin
 
 ```typescript
-import type { WtPlugin } from "wt-cli/types";
+import type { WtPlugin } from "@jescalan/wt/types";
 
 export function myPlugin(options = {}): WtPlugin {
   return {
@@ -315,7 +315,7 @@ Automatically create/delete Neon database branches with worktrees:
 
 ```typescript
 // wt.config.ts
-import { neonPlugin } from "wt-cli/plugins/neon";
+import { neonPlugin } from "@jescalan/wt/plugins/neon";
 
 export default {
   plugins: [
@@ -348,7 +348,7 @@ Automatically update Codex session paths when worktrees are removed:
 
 ```typescript
 // wt.config.ts
-import { codexPlugin } from "wt-cli/plugins/codex";
+import { codexPlugin } from "@jescalan/wt/plugins/codex";
 
 export default {
   plugins: [
@@ -365,7 +365,7 @@ Automatically migrate Claude Code sessions when worktrees are removed:
 
 ```typescript
 // wt.config.ts
-import { claudePlugin } from "wt-cli/plugins/claude";
+import { claudePlugin } from "@jescalan/wt/plugins/claude";
 
 export default {
   plugins: [
