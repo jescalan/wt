@@ -1,0 +1,68 @@
+{
+  "name": "wt-cli",
+  "version": "0.1.0",
+  "description": "A CLI tool for managing git worktrees with plugin support",
+  "author": "Jeff Escalante",
+  "type": "module",
+  "bin": {
+    "wt": "./dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./plugins/neon": {
+      "types": "./dist/plugins/neon.d.ts",
+      "import": "./dist/plugins/neon.js"
+    },
+    "./plugins/neon.js": {
+      "types": "./dist/plugins/neon.d.ts",
+      "import": "./dist/plugins/neon.js"
+    },
+    "./plugins/codex": {
+      "types": "./dist/plugins/codex.d.ts",
+      "import": "./dist/plugins/codex.js"
+    },
+    "./plugins/codex.js": {
+      "types": "./dist/plugins/codex.d.ts",
+      "import": "./dist/plugins/codex.js"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    },
+    "./types.js": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test",
+    "test:watch": "bun test --watch"
+  },
+  "dependencies": {
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.5",
+    "@types/node": "^22.10.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "git",
+    "worktree",
+    "cli"
+  ],
+  "license": "MIT"
+}
