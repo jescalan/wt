@@ -16,14 +16,14 @@ npx wt <command>
 
 All commands have short aliases for faster typing:
 
-| Command | Alias | Description |
-|---------|-------|-------------|
-| `create` | `c` | Create a new worktree |
-| `merge` | `m` | Merge and clean up |
-| `search` | `s` | Interactive worktree selector |
-| `list` | `l` | List all worktrees |
-| `remove` | `rm` | Remove a worktree |
-| `status` | `st` | Show worktree overview |
+| Command  | Alias | Description                   |
+| -------- | ----- | ----------------------------- |
+| `create` | `c`   | Create a new worktree         |
+| `merge`  | `m`   | Merge and clean up            |
+| `search` | `s`   | Interactive worktree selector |
+| `list`   | `l`   | List all worktrees            |
+| `remove` | `rm`  | Remove a worktree             |
+| `status` | `st`  | Show worktree overview        |
 
 ### `wt create <name>` (alias: `c`)
 
@@ -35,6 +35,7 @@ wt c feature-auth  # Short form
 ```
 
 This will:
+
 1. Create a new worktree at the configured path (default: `../{repo}-{branch}`)
 2. Create a new branch (or use existing if it exists)
 3. Copy gitignored files from the current worktree (configurable)
@@ -51,6 +52,7 @@ wt m            # Short form
 ```
 
 This will:
+
 1. Switch to the main worktree
 2. Merge the current branch
 3. Remove the worktree and delete the branch (unless `--keep`)
@@ -79,6 +81,7 @@ wt l  # Short form
 ```
 
 Output example:
+
 ```
 * main          /path/to/repo          (default)
   feature-auth  /path/to/repo-feature  2 ahead, 1 behind
@@ -86,6 +89,7 @@ Output example:
 ```
 
 Shows:
+
 - Current worktree marked with `*`
 - Default branch marked with `(default)`
 - Ahead/behind count compared to default branch
@@ -102,6 +106,7 @@ wt rm -f feature-auth   # Skip confirmation prompt
 ```
 
 Options:
+
 - `-f, --force`: Skip the confirmation prompt
 
 The default branch worktree cannot be removed.
@@ -116,6 +121,7 @@ wt st  # Short form
 ```
 
 Output example:
+
 ```
 Repository: my-project
 Default branch: main (3 worktrees)
@@ -134,16 +140,19 @@ Default branch: main (3 worktrees)
 Add one line to your shell config to enable automatic directory changing:
 
 **Zsh** (`~/.zshrc`):
+
 ```bash
 eval "$(wt init zsh)"
 ```
 
 **Bash** (`~/.bashrc`):
+
 ```bash
 eval "$(wt init bash)"
 ```
 
 **Fish** (`~/.config/fish/config.fish`):
+
 ```fish
 wt init fish | source
 ```
@@ -153,7 +162,7 @@ wt init fish | source
 Create a `wt.config.ts` file in your project root (or any parent directory):
 
 ```typescript
-import type { WtConfig } from 'wt-cli/types';
+import type { WtConfig } from "wt-cli/types";
 
 export default {
   // Copy gitignored files when creating worktrees (default: true)
@@ -161,7 +170,7 @@ export default {
 
   // Worktree path pattern (default: "../{repo}-{branch}")
   // Variables: {repo}, {branch}, {parent}
-  worktreePath: '../{repo}-{branch}',
+  worktreePath: "../{repo}-{branch}",
 
   // Plugins to load
   plugins: [],
@@ -169,10 +178,10 @@ export default {
   // Hooks - can be commands, functions, or arrays of both
   hooks: {
     // Run npm install after creating a worktree
-    afterCreate: 'npm install',
+    afterCreate: "npm install",
 
     // Run tests before merging
-    beforeMerge: 'npm test',
+    beforeMerge: "npm test",
   },
 } satisfies WtConfig;
 ```
@@ -186,6 +195,7 @@ Customize where worktrees are created using these variables:
 - `{parent}` - Parent directory of the repository root
 
 Examples:
+
 ```typescript
 // Default: ../my-project-feature-auth
 worktreePath: '../{repo}-{branch}',
@@ -229,14 +239,14 @@ Plugins can hook into the worktree lifecycle to perform custom actions.
 
 ### Available Hooks
 
-| Hook | When it runs |
-|------|--------------|
-| `beforeCreate` | Before creating a new worktree |
-| `afterCreate` | After worktree is created and files are copied |
-| `beforeMerge` | Before merging into the default branch |
-| `afterMerge` | After successful merge |
-| `beforeRemove` | Before removing a worktree |
-| `afterRemove` | After worktree and branch are removed |
+| Hook           | When it runs                                   |
+| -------------- | ---------------------------------------------- |
+| `beforeCreate` | Before creating a new worktree                 |
+| `afterCreate`  | After worktree is created and files are copied |
+| `beforeMerge`  | Before merging into the default branch         |
+| `afterMerge`   | After successful merge                         |
+| `beforeRemove` | Before removing a worktree                     |
+| `afterRemove`  | After worktree and branch are removed          |
 
 ### Hook Context
 
@@ -244,13 +254,13 @@ Every hook receives a context object:
 
 ```typescript
 interface HookContext {
-  repoRoot: string;        // Git repository root
-  defaultBranch: string;   // e.g., 'main' or 'master'
-  branchName: string;      // Branch being operated on
-  worktreePath: string;    // Path to the worktree
+  repoRoot: string; // Git repository root
+  defaultBranch: string; // e.g., 'main' or 'master'
+  branchName: string; // Branch being operated on
+  worktreePath: string; // Path to the worktree
   sourceWorktree?: string; // Source worktree (for create)
   targetWorktree?: string; // Target worktree (for merge)
-  logger: Logger;          // Logging utilities
+  logger: Logger; // Logging utilities
   exec: (cmd: string) => Promise<ExecResult>; // Run shell commands
 }
 ```
@@ -258,19 +268,19 @@ interface HookContext {
 ### Writing a Plugin
 
 ```typescript
-import type { WtPlugin } from 'wt-cli/types';
+import type { WtPlugin } from "wt-cli/types";
 
 export function myPlugin(options = {}): WtPlugin {
   return {
-    name: 'my-plugin',
+    name: "my-plugin",
     hooks: {
       afterCreate: async (ctx) => {
-        ctx.logger.info('Worktree created!');
+        ctx.logger.info("Worktree created!");
 
         // Run a command
-        const result = await ctx.exec('npm install', { cwd: ctx.worktreePath });
+        const result = await ctx.exec("npm install", { cwd: ctx.worktreePath });
         if (result.exitCode !== 0) {
-          ctx.logger.warn('npm install failed');
+          ctx.logger.warn("npm install failed");
         }
       },
 
@@ -286,11 +296,13 @@ export function myPlugin(options = {}): WtPlugin {
 
 ```typescript
 // wt.config.ts
-import { myPlugin } from './plugins/my-plugin';
+import { myPlugin } from "./plugins/my-plugin";
 
 export default {
   plugins: [
-    myPlugin({ /* options */ }),
+    myPlugin({
+      /* options */
+    }),
   ],
 };
 ```
@@ -303,43 +315,45 @@ Automatically create/delete Neon database branches with worktrees:
 
 ```typescript
 // wt.config.ts
-import { neonPlugin } from 'wt-cli/plugins/neon';
+import { neonPlugin } from "wt-cli/plugins/neon";
 
 export default {
   plugins: [
     neonPlugin({
-      projectIdEnvVar: 'NEON_PROJECT_ID', // env var or .env key
-      envFile: '.env',                     // path to .env file
-      parentBranch: 'current',             // 'main', 'current', or branch name
+      projectIdEnvVar: "NEON_PROJECT_ID", // env var or .env key
+      envFile: ".env", // path to .env file
+      parentBranch: "current", // 'main', 'current', or branch name
     }),
   ],
 };
 ```
 
 The plugin will:
+
 - Create a Neon branch when you create a worktree
 - Update `DATABASE_URL` in the new worktree's `.env`
 - Delete the Neon branch when you merge/remove the worktree
 
 **Parent branch options:**
+
 - `'main'` (default): Branch from Neon's primary branch
 - `'current'`: Branch from the current git branch's Neon branch (inherits migrations/data)
 - `'branch-name'`: Branch from a specific named Neon branch
 
 Requires the [Neon CLI](https://neon.tech/docs/reference/cli-install) to be installed.
 
-### Codex Session Patching
+### Codex Session Migration
 
 Automatically update Codex session paths when worktrees are removed:
 
 ```typescript
 // wt.config.ts
-import { codexPlugin } from 'wt-cli/plugins/codex';
+import { codexPlugin } from "wt-cli/plugins/codex";
 
 export default {
   plugins: [
     codexPlugin({
-      codexHome: '~/.codex', // optional, defaults to $CODEX_HOME or ~/.codex
+      codexHome: "~/.codex", // optional, defaults to $CODEX_HOME or ~/.codex
     }),
   ],
 };
@@ -351,12 +365,12 @@ Automatically migrate Claude Code sessions when worktrees are removed:
 
 ```typescript
 // wt.config.ts
-import { claudePlugin } from 'wt-cli/plugins/claude';
+import { claudePlugin } from "wt-cli/plugins/claude";
 
 export default {
   plugins: [
     claudePlugin({
-      claudeHome: '~/.claude', // optional, defaults to ~/.claude
+      claudeHome: "~/.claude", // optional, defaults to ~/.claude
     }),
   ],
 };
