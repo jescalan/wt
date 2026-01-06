@@ -6,10 +6,10 @@ A CLI tool for managing git worktrees with a plugin system for extensibility.
 
 ```bash
 # Install globally
-npm install -g wt
+npm install -g wt-cli
 
 # Or run directly with npx
-npx wt <command>
+npx wt-cli <command>
 ```
 
 ## Commands
