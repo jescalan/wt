@@ -20,6 +20,7 @@ export default defineConfig([
     entry: {
       'plugins/neon': 'src/plugins/neon.ts',
       'plugins/codex': 'src/plugins/codex.ts',
+      'plugins/claude': 'src/plugins/claude.ts',
     },
     format: ['esm'],
     target: 'node18',

@@ -28,6 +28,14 @@
       "types": "./dist/plugins/codex.d.ts",
       "import": "./dist/plugins/codex.js"
     },
+    "./plugins/claude": {
+      "types": "./dist/plugins/claude.d.ts",
+      "import": "./dist/plugins/claude.js"
+    },
+    "./plugins/claude.js": {
+      "types": "./dist/plugins/claude.d.ts",
+      "import": "./dist/plugins/claude.js"
+    },
     "./types": {
       "types": "./dist/types.d.ts",
       "import": "./dist/types.js"
