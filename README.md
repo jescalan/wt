@@ -345,6 +345,27 @@ export default {
 };
 ```
 
+### Claude Code Session Migration
+
+Automatically migrate Claude Code sessions when worktrees are removed:
+
+```typescript
+// wt.config.ts
+import { claudePlugin } from 'wt-cli/plugins/claude';
+
+export default {
+  plugins: [
+    claudePlugin({
+      claudeHome: '~/.claude', // optional, defaults to ~/.claude
+    }),
+  ],
+};
+```
+
+Claude Code stores conversation history in `~/.claude/projects/` using encoded paths as directory names (e.g., `/Users/jeff/Sites/wt` becomes `-Users-jeff-Sites-wt`). When you remove a worktree, those sessions would become orphaned.
+
+This plugin moves session files from the worktree's project directory to the target worktree's directory, preserving your conversation history. If there are filename collisions, the migrated files are renamed with a branch suffix.
+
 ## Requirements
 
 - Git 2.5+ (for worktree support)
