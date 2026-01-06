@@ -342,6 +342,40 @@ The plugin will:
 
 Requires the [Neon CLI](https://neon.tech/docs/reference/cli-install) to be installed.
 
+### PlanetScale Database Branching
+
+Automatically create/delete PlanetScale database branches with worktrees:
+
+```typescript
+// wt.config.ts
+import { planetscalePlugin } from "@jescalan/wt/plugins/planetscale";
+
+export default {
+  plugins: [
+    planetscalePlugin({
+      databaseEnvVar: "PLANETSCALE_DATABASE", // env var or .env key for database name
+      orgEnvVar: "PLANETSCALE_ORG", // env var or .env key for org (optional)
+      envFile: ".env", // path to .env file
+      parentBranch: "current", // 'main', 'current', or branch name
+    }),
+  ],
+};
+```
+
+The plugin will:
+
+- Create a PlanetScale branch when you create a worktree
+- Generate a password and update `DATABASE_URL` in the new worktree's `.env`
+- Delete the PlanetScale branch when you merge/remove the worktree
+
+**Parent branch options:**
+
+- `'main'` (default): Branch from PlanetScale's primary branch
+- `'current'`: Branch from the current git branch's PlanetScale branch (inherits schema/data)
+- `'branch-name'`: Branch from a specific named PlanetScale branch
+
+Requires the [PlanetScale CLI](https://planetscale.com/docs/reference/planetscale-cli) to be installed and authenticated.
+
 ### Codex Session Migration
 
 Automatically update Codex session paths when worktrees are removed:

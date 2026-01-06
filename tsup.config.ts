@@ -21,6 +21,7 @@ export default defineConfig([
       'plugins/neon': 'src/plugins/neon.ts',
       'plugins/codex': 'src/plugins/codex.ts',
       'plugins/claude': 'src/plugins/claude.ts',
+      'plugins/planetscale': 'src/plugins/planetscale.ts',
     },
     format: ['esm'],
     target: 'node18',
